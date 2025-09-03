@@ -114,11 +114,6 @@ npm start   # http://localhost:3000
 
 ---
 
-## 📄 라이선스
-MIT
-
----
-
 ## 🙌 크레딧
 - **FastAPI, Uvicorn** (백엔드)  
 - **React, Web Speech API** (프런트엔드)  
