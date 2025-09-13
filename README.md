@@ -1,4 +1,4 @@
-# 📡 News Voice Assistant (Python FastAPI + React)
+# 📡 AI 에이전트 기반 개인 맞춤 뉴스 서비스 (Python FastAPI + React)
 
 > **음성 기반 뉴스 검색 & 요약 시스템**  
 > 사용자가 말로 뉴스를 요청하면 → 관련 기사 검색 → AI 요약 → 음성으로 읽어주는 **풀스택 프로젝트**
