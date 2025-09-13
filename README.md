@@ -1,121 +1,100 @@
 # 📡 AI 에이전트 기반 개인 맞춤 뉴스 서비스 (Python FastAPI + React)
 
-> **음성 기반 뉴스 검색 & 요약 시스템**  
-> 사용자가 말로 뉴스를 요청하면 → 관련 기사 검색 → AI 요약 → 음성으로 읽어주는 **풀스택 프로젝트**
+<details> <summary>프로젝트 개요</summary> <br>
 
-<p align="left">
-  <img alt="Python" src="https://img.shields.io/badge/Backend-Python%20(FastAPI)-3776AB?logo=python&logoColor=white" />
-  <img alt="FastAPI" src="https://img.shields.io/badge/Framework-FastAPI-009688?logo=fastapi&logoColor=white" />
-  <img alt="React" src="https://img.shields.io/badge/Frontend-React-61DAFB?logo=react&logoColor=white" />
-  <img alt="OpenAI" src="https://img.shields.io/badge/AI-OpenAI-black?logo=openai" />
-  <img alt="License" src="https://img.shields.io/badge/License-MIT-green" />
-</p>
+현대인은 하루에도 수많은 뉴스를 접하지만, 원하는 뉴스를 빠르게 찾고 요약된 핵심을 확인하는 것은 쉽지 않습니다.
+이 프로젝트는 **음성 인터페이스와 AI 요약**을 결합하여 사용자가 말로 뉴스를 요청하면 관련 기사를 모으고, 핵심을 요약해 텍스트와 음성으로 전달하는 개인 맞춤형 뉴스 서비스입니다.
 
----
+React 기반 웹 UI와 Python FastAPI 백엔드, OpenAI API를 연동해 **검색 → 요약 → 음성 변환**까지 이어지는 **엔드 투 엔드(End-to-End) 흐름**을 구현했습니다.
 
-## 🎯 프로젝트 개요
-현대인은 하루에도 수많은 뉴스를 접합니다.  
-이 프로젝트는 **음성 인터페이스**와 **AI 요약**을 결합해, 사용자가 말로 뉴스를 요청하면 관련 기사를 모으고 핵심을 요약하여 **텍스트와 음성**으로 제공합니다.
+</details>
 
----
 
-## ✨ 주요 기능
-- 🗣️ **STT**: 사용자의 음성을 텍스트로 변환 (OpenAI Whisper API)  
-- 🔎 **뉴스 검색**: 네이버 뉴스 API 연동  
-- 🧠 **요약 생성**: AI 기반 듀얼 쿼리 요약  
-- 🔊 **TTS**: 요약 결과를 음성(MP3)으로 변환 (OpenAI TTS)  
-- 🔤 **핫 키워드 추출**: 최근 기사에서 많이 등장한 키워드 시각화  
+<details> <summary>담당 역할</summary> <br>
 
----
+프로젝트에서는 전체 아키텍처를 설계하고 프론트엔드–백엔드–AI 모듈을 연결하는 핵심 로직을 구현했습니다.
 
-## 🏗 아키텍처
-```text
-React (브라우저)
-   │  음성 입력(STT) / 결과 표시
-   ▼
-Uvicorn (ASGI 서버)
-   ▼
-FastAPI (Python 백엔드)
-   ├─ 네이버 뉴스 검색 API 호출
-   ├─ OpenAI STT/TTS 호출
-   └─ 요약/키워드 처리
-```
+- **STT/TTS**: OpenAI Whisper를 통한 음성 → 텍스트 변환, OpenAI TTS 기반 음성 합성 적용
 
----
+- **뉴스 처리**: 네이버 뉴스 API 연동 후, 검색된 기사 본문을 파싱·필터링하여 요약에 적합한 데이터로 정제
 
-## 🧰 기술 스택
-- **Language**: Python 3.10+, JavaScript (ES6)  
-- **Backend**: FastAPI, Uvicorn, httpx, pydantic  
-- **Frontend**: React (CRA), Web Speech API  
-- **AI**: OpenAI Whisper (STT), OpenAI TTS, (옵션) KoBERT + transformers  
-- **Data**: Naver News API  
+- **AI 요약**: LLM 기반 듀얼 쿼리 요약 방식을 적용해 핵심 정보 위주로 요약
 
----
+- **프론트엔드 로직**: React로 제작된 화면에 음성 입력, 요약 결과, 키워드 시각화 기능 구현
 
-## 📂 프로젝트 구조
-```plaintext
-news_project/
-├─ backend/
-│  ├─ main.py
-│  ├─ voice_chat.py
-│  └─ requirements.txt
-└─ frontend/
-   ├─ public/index.html
-   └─ src/
-      ├─ App.js / App.css
-      ├─ components/
-      │  ├─ SearchBar.jsx
-      │  ├─ MicButton.jsx
-      │  ├─ HeadlineGrid.jsx
-      │  └─ ChatBox.jsx
-```
+- **기술 문서화**: 전체 흐름과 API 스펙을 문서화하여 협업과 확장성을 고려
 
----
+단순히 API를 연결하는 수준을 넘어, 실제 사용자 경험을 고려해 성능과 흐름을 다듬는 과정에 집중했습니다.
 
-## ⚡ 실행 방법
+</details>
 
-### 백엔드
-```bash
-cd backend
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+<details> 
+  <summary>주요 기능</summary> <br>
 
-# 환경 변수 (.env)
-OPENAI_API_KEY=sk-...
-NAVER_CLIENT_ID=your_client_id
-NAVER_CLIENT_SECRET=your_client_secret
+- **STT**: 사용자의 음성을 텍스트로 변환 (Whisper API)
 
-uvicorn main:app --reload
-```
+- **뉴스 검색**: 네이버 뉴스 API 연동, 기사 크롤링 및 파싱
 
-### 프런트엔드
-```bash
-cd frontend
-npm install
-npm start   # http://localhost:3000
-```
+- **요약 생성**: LLM 기반 듀얼 쿼리 요약으로 핵심만 정리
 
----
+- **TTS**: 요약 결과를 음성(MP3)으로 변환 후 재생
 
-## 🔄 동작 흐름
-1. 사용자가 **마이크 버튼**을 눌러 발화  
-2. 음성이 **텍스트** (**STT**)로 변환  
-3. 백엔드가 **뉴스 검색 + 요약** 처리  
-4. 결과를 **텍스트 + 음성** (**TTS**)으로 반환  
-5. 브라우저에서 **기사·요약·핫 키워드 표시**  
+- **핫 키워드**: 최근 기사에서 많이 등장한 키워드 추출 및 시각화
 
----
+</details>
 
-## 🧠 학습 포인트
-- FastAPI 기반 **비동기 API 설계** 경험  
-- 외부 API(OpenAI, Naver) **통합 및 예외 처리**  
-- 음성 UX (리스닝 → 요약 → 발화) 플로우 설계  
-- **프론트–백–AI**를 연결한 풀스택 경험  
+<details> <summary>테스트 고려사항</summary> <br>
 
----
+- **실시간성 검증**: Whisper STT 속도 및 브라우저 TTS 재생 지연 확인
 
-## 🙌 크레딧
-- **FastAPI, Uvicorn** (백엔드)  
-- **React, Web Speech API** (프런트엔드)  
-- **OpenAI Whisper/TTS** (음성 인식 & 합성)  
-- **Naver News API** (뉴스 데이터)  
+- **데이터 정합성**: 기사 파싱 시 광고·불필요한 텍스트 제거 정확도
+
+- **요약 품질**: 동일 기사에 대한 요약 일관성 검증
+
+- **에러 대응**: 뉴스 API 실패 시 대체 메시지 제공, 캐싱 처리
+
+</details>
+
+# 🏆 성과
+<details> <summary>성과</summary> <br>
+
+- 단순 음성 인식/출력 수준을 넘어, **기사 검색 → 요약 → 음성 응답**까지 완결된 플로우를 구축
+
+- 뉴스 데이터에서 **핵심 키워드 추출 및 시각화 기능**을 추가해 사용자 친화적 UI 제공
+
+- 프론트엔드–백엔드–AI 모듈을 하나의 서비스로 통합하며 **풀스택 경험**을 쌓음
+
+</details>
+
+# 🔧 문제 해결 사례
+<details> <summary>문제 해결 사례</summary> <br>
+
+- **뉴스 파싱 오류**: 기사마다 HTML 구조가 달라, 공통 패턴을 찾아 정규표현식과 필터링 로직을 개선
+
+- **요약 API 토큰 초과**: 본문을 단락 단위로 나눈 뒤, 요약을 단계적으로 합쳐 최종 요약 생성
+
+- **TTS 지연**: 긴 텍스트를 구간별로 나누어 합성 후 순차 재생하여 사용자 경험 개선
+
+</details>
+
+# 📚 배운 점 & 성장
+<details> <summary>배운 점 & 성장</summary> <br>
+
+이 프로젝트를 통해 **멀티 모듈 통합**의 어려움과 보람을 동시에 경험했습니다. 단순히 STT나 요약만 구현하는 것이 아니라, **사용자 경험 중심으로 기능을 연결하고 흐름을 최적화하는 과정**의 중요성을 배웠습니다.
+
+또한 뉴스 데이터처럼 구조가 일정하지 않은 정보를 다루면서, **데이터 정제와 전처리 능력의 필요성**을 체감했습니다.
+무엇보다도, 내가 만든 서비스가 단순 기능 시연을 넘어 실제 사용자가 편리하게 쓸 수 있는 형태로 완성된 점에서 큰 보람을 느낄 수 있었습니다.
+
+</details>
+
+
+# 🌐 활용 및 확장 가능성
+<details> <summary>활용 및 확장 가능성</summary> <br>
+
+사용자가 관심 있는 주제(예: 스포츠, 정치, IT)에 맞춘 **개인화 뉴스 추천 기능**으로 확장 가능
+
+다국어 STT/TTS를 적용해 **글로벌 뉴스 서비스**로 발전 가능
+
+핫 키워드 분석을 심화해 **실시간 트렌드 분석 서비스**로 확장 가능
+
+</details>
